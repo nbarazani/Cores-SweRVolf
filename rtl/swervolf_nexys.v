@@ -83,7 +83,7 @@ module swervolf_nexys_a7
    
    always @(posedge clk_core or negedge rstn) begin
 	  if(!rstn) begin
-		an <= 8'b11111110;
+		an <= 8'00000001;
 	  end
 	  else begin
 		an[0] <= an[7];
@@ -141,13 +141,13 @@ module swervolf_nexys_a7
 		4'b0111 : begin seven_seg = 7'b1110000; end
 		4'b1000 : begin seven_seg = 7'b1111111; end
 		4'b1001 : begin seven_seg = 7'b1110011; end
-		4'b1010 : begin seven_seg = 7'b0001000; end
-		4'b1011 : begin seven_seg = 7'b1100000; end
-		4'b1100 : begin seven_seg = 7'b0110001; end
-		4'b1101 : begin seven_seg = 7'b1000010; end	
-		4'b1110 : begin seven_seg = 7'b0110000; end
-		4'b1111 : begin seven_seg = 7'b0111000; end
-		default : begin seven_seg = 7'b1111111; end
+		4'b1010 : begin seven_seg = 7'b1110111; end
+		4'b1011 : begin seven_seg = 7'b0011111; end
+		4'b1100 : begin seven_seg = 7'b1001110; end
+		4'b1101 : begin seven_seg = 7'b0111101; end	
+		4'b1110 : begin seven_seg = 7'b1001111; end
+		4'b1111 : begin seven_seg = 7'b1000111; end
+		default : begin seven_seg = 7'b0000000; end
 	endcase
 	ca = seven_seg[0];
 	cb = seven_seg[1];
