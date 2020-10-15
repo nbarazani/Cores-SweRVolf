@@ -129,8 +129,7 @@ module swervolf_nexys_a7
    
    end
    
-   always @(four_bits)
-    begin
+   always @(four_bits) begin
     case (four_bits)
    		4'b0000 : begin seven_seg = 7'b1111110; end
 		4'b0001 : begin seven_seg = 7'b0110000; end
