@@ -83,7 +83,7 @@ module swervolf_nexys_a7
    
    always @(posedge clk_core or negedge rstn) begin
 	  if(!rstn) begin
-		an <= 8'00000001;
+		an <= 8'11111110;
 	  end
 	  else begin
 		an[0] <= an[7];
@@ -131,31 +131,31 @@ module swervolf_nexys_a7
    
    always @(four_bits) begin
 	case (four_bits)
-		4'b0000 : begin seven_seg = 7'b1111110; end
-		4'b0001 : begin seven_seg = 7'b0110000; end	
-		4'b0010 : begin seven_seg = 7'b1101101; end
-		4'b0011 : begin seven_seg = 7'b1111001; end
-		4'b0100 : begin seven_seg = 7'b0110011; end
-		4'b0101 : begin seven_seg = 7'b1011011; end
-		4'b0110 : begin seven_seg = 7'b1011111; end
-		4'b0111 : begin seven_seg = 7'b1110000; end
-		4'b1000 : begin seven_seg = 7'b1111111; end
-		4'b1001 : begin seven_seg = 7'b1110011; end
-		4'b1010 : begin seven_seg = 7'b1110111; end
-		4'b1011 : begin seven_seg = 7'b0011111; end
-		4'b1100 : begin seven_seg = 7'b1001110; end
-		4'b1101 : begin seven_seg = 7'b0111101; end	
-		4'b1110 : begin seven_seg = 7'b1001111; end
-		4'b1111 : begin seven_seg = 7'b1000111; end
-		default : begin seven_seg = 7'b0000000; end
+		4'b0000 : begin seven_seg = 7'b0000001; end
+		4'b0001 : begin seven_seg = 7'b1001111; end	
+		4'b0010 : begin seven_seg = 7'b0010010; end
+		4'b0011 : begin seven_seg = 7'b0000110; end
+		4'b0100 : begin seven_seg = 7'b1001100; end
+		4'b0101 : begin seven_seg = 7'b0100100; end
+		4'b0110 : begin seven_seg = 7'b0100000; end
+		4'b0111 : begin seven_seg = 7'b0001111; end
+		4'b1000 : begin seven_seg = 7'b0000000; end
+		4'b1001 : begin seven_seg = 7'b0000100; end
+		4'b1010 : begin seven_seg = 7'b0001000; end
+		4'b1011 : begin seven_seg = 7'b1100000; end
+		4'b1100 : begin seven_seg = 7'b0110001; end
+		4'b1101 : begin seven_seg = 7'b1000010; end	
+		4'b1110 : begin seven_seg = 7'b0110000; end
+		4'b1111 : begin seven_seg = 7'b0111000; end
+		default : begin seven_seg = 7'b1111111; end
 	endcase
-	ca = seven_seg[0];
-	cb = seven_seg[1];
-	cc = seven_seg[2];
+	ca = seven_seg[6];
+	cb = seven_seg[5];
+	cc = seven_seg[4];
 	cd = seven_seg[3];
-	ce = seven_seg[4];
-	cf = seven_seg[5];
-	cg = seven_seg[6];
+	ce = seven_seg[2];
+	cf = seven_seg[1];
+	cg = seven_seg[0];
 
 end
 
