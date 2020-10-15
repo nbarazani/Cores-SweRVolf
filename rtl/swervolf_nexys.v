@@ -100,21 +100,21 @@ module swervolf_nexys_a7
 	  end
 	  else begin
 		if (!an[7])
-			four_bits <= branches_counter[3:0];
+			four_bits[3:0] <= branches_counter[3:0];
 		if (!an[0])
-			four_bits <= branches_counter[7:4];
+			four_bits[3:0] <= branches_counter[7:4];
 		if (!an[1])
-			four_bits <= branches_counter[11:8];
+			four_bits[3:0] <= branches_counter[11:8];
 		if (!an[2])
-			four_bits <= branches_counter[15:12];
+			four_bits[3:0] <= branches_counter[15:12];
 		if (!an[3])
-			four_bits <= branches_taken_counter[3:0];
+			four_bits[3:0] <= branches_taken_counter[3:0];
 		if (!an[4])
-			four_bits <= branches_taken_counter[7:4];
+			four_bits[3:0] <= branches_taken_counter[7:4];
 		if (!an[5])
-			four_bits <= branches_taken_counter[11:8];
+			four_bits[3:0] <= branches_taken_counter[11:8];
 		if (!an[6])
-			four_bits <= branches_taken_counter[15:12];
+			four_bits[3:0] <= branches_taken_counter[15:12];
 			
 	  end
       
@@ -123,7 +123,7 @@ module swervolf_nexys_a7
    
    always @(*)
     begin
-    case (four_bits)
+    case (four_bits[3:0])
    		4'b0000 : begin seven_seg = 7'b1111110; end
 		4'b0001 : begin seven_seg = 7'b0110000; end
 		4'b0010 : begin seven_seg = 7'b1101101; end
