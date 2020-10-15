@@ -83,7 +83,7 @@ module swervolf_nexys_a7
    
    always @(posedge clk_core or negedge rstn) begin
 	  if(!rstn) begin
-		an <= 8'11111110;
+		an <= 8'b11111110;
 	  end
 	  else begin
 		an[0] <= an[7];
