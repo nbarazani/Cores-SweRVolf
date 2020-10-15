@@ -48,13 +48,13 @@ module swervolf_nexys_a7
     input wire [15:0]  i_sw,
     output reg [15:0]  o_led,
     output reg [7:0] an,
-    output wire ca,
-    output wire cb,
-    output wire cc,
-    output wire cd,
-    output wire ce,
-    output wire cf,
-    output wire cg);
+    output reg ca,
+    output reg cb,
+    output reg cc,
+    output reg cd,
+    output reg ce,
+    output reg cf,
+    output reg cg);
 
    wire [63:0] 	       gpio_out;
    reg [15:0] 	       led_int_r;
@@ -78,7 +78,7 @@ module swervolf_nexys_a7
    wire [31:0] branches_counter;
    wire [31:0] branches_taken_counter;
    
-   wire [6:0] seven_seg;
+   reg [6:0] seven_seg;
    reg [3:0] four_bits;
    
    always @(posedge clk_core or negedge rstn) begin
@@ -130,9 +130,9 @@ module swervolf_nexys_a7
    end
    
    always @(four_bits) begin
-    case (four_bits)
-   		4'b0000 : begin seven_seg = 7'b1111110; end
-		4'b0001 : begin seven_seg = 7'b0110000; end
+	case (four_bits)
+		4'b0000 : begin seven_seg = 7'b1111110; end
+		4'b0001 : begin seven_seg = 7'b0110000; end	
 		4'b0010 : begin seven_seg = 7'b1101101; end
 		4'b0011 : begin seven_seg = 7'b1111001; end
 		4'b0100 : begin seven_seg = 7'b0110011; end
@@ -144,11 +144,11 @@ module swervolf_nexys_a7
 		4'b1010 : begin seven_seg = 7'b0001000; end
 		4'b1011 : begin seven_seg = 7'b1100000; end
 		4'b1100 : begin seven_seg = 7'b0110001; end
-		4'b1101 : begin seven_seg = 7'b1000010; end
+		4'b1101 : begin seven_seg = 7'b1000010; end	
 		4'b1110 : begin seven_seg = 7'b0110000; end
 		4'b1111 : begin seven_seg = 7'b0111000; end
 		default : begin seven_seg = 7'b1111111; end
-    endcase
+	endcase
 	ca = seven_seg[0];
 	cb = seven_seg[1];
 	cc = seven_seg[2];
@@ -156,7 +156,8 @@ module swervolf_nexys_a7
 	ce = seven_seg[4];
 	cf = seven_seg[5];
 	cg = seven_seg[6];
-  end
+
+end
 
    //NIBA
 
