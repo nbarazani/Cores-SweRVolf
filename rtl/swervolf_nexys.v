@@ -46,7 +46,15 @@ module swervolf_nexys_a7
     input wire 	       i_uart_rx,
     output wire        o_uart_tx,
     input wire [15:0]  i_sw,
-    output reg [15:0]  o_led);
+    output reg [15:0]  o_led,
+    output reg [7:0] an,
+    output wire ca,
+    output wire cb,
+    output wire cc,
+    output wire cd,
+    output wire ce,
+    output wire cf,
+    output wire cg);
 
    wire [63:0] 	       gpio_out;
    reg [15:0] 	       led_int_r;
@@ -65,6 +73,84 @@ module swervolf_nexys_a7
    wire 	 rst_core;
    wire 	 user_clk;
    wire 	 user_rst;
+   
+     //NIBA
+   wire [31:0] branches_counter;
+   wire [31:0] branches_taken_counter;
+   
+   wire [6:0] seven_seg;
+   reg [3:0] four_bits;
+   
+   always @(posedge clk_core or negedge rstn) begin
+	  if(!rstn) begin
+		an <= 8'b11111110;
+	  end
+	  else begin
+		an[0] <= an[7];
+		an[1] <= an[0];
+		an[2] <= an[1];
+		an[3] <= an[2];
+		an[4] <= an[3];
+		an[5] <= an[4];
+		an[6] <= an[5];
+		an[7] <= an[6];
+	  end
+	  if (!rstn) begin
+	    four_bits <= 3'b0;
+	  end
+	  else begin
+		if (!an[7])
+			four_bits <= branches_counter[3:0];
+		if (!an[0])
+			four_bits <= branches_counter[7:4];
+		if (!an[1])
+			four_bits <= branches_counter[11:8];
+		if (!an[2])
+			four_bits <= branches_counter[15:12];
+		if (!an[3])
+			four_bits <= branches_taken_counter[3:0];
+		if (!an[4])
+			four_bits <= branches_taken_counter[7:4];
+		if (!an[5])
+			four_bits <= branches_taken_counter[11:8];
+		if (!an[6])
+			four_bits <= branches_taken_counter[15:12];
+			
+	  end
+      
+   
+   end
+   
+   always @(*)
+    begin
+    case (four_bits)
+   		4'b0000 : begin seven_seg = 7'b1111110; end
+		4'b0001 : begin seven_seg = 7'b0110000; end
+		4'b0010 : begin seven_seg = 7'b1101101; end
+		4'b0011 : begin seven_seg = 7'b1111001; end
+		4'b0100 : begin seven_seg = 7'b0110011; end
+		4'b0101 : begin seven_seg = 7'b1011011; end
+		4'b0110 : begin seven_seg = 7'b1011111; end
+		4'b0111 : begin seven_seg = 7'b1110000; end
+		4'b1000 : begin seven_seg = 7'b1111111; end
+		4'b1001 : begin seven_seg = 7'b1110011; end
+		4'b1010 : begin seven_seg = 7'b0001000; end
+		4'b1011 : begin seven_seg = 7'b1100000; end
+		4'b1100 : begin seven_seg = 7'b0110001; end
+		4'b1101 : begin seven_seg = 7'b1000010; end
+		4'b1110 : begin seven_seg = 7'b0110000; end
+		4'b1111 : begin seven_seg = 7'b0111000; end
+    endcase
+	ca = seven_seg[0];
+	cb = seven_seg[1];
+	cc = seven_seg[2];
+	cd = seven_seg[3];
+	ce = seven_seg[4];
+	cf = seven_seg[5];
+	cg = seven_seg[6];
+  end
+
+   //NIBA
 
    clk_gen_nexys clk_gen
      (.i_clk (user_clk),

@@ -264,7 +264,11 @@ module swerv_wrapper_dmi
    input logic                       i_cpu_run_req, // Async restart req to CPU
    output logic                      o_cpu_run_ack, // Core response to run req
    input logic                       scan_mode, // To enable scan mode
-   input logic                       mbist_mode // to enable mbist
+   input logic                       mbist_mode, // to enable mbist
+   //NIBA
+   output logic [31:0] branches_counter,
+   output logic [31:0] branches_taken_counter
+   //NIBA
 );
 
 `include "global.h"

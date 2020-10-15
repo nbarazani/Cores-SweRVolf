@@ -16,7 +16,7 @@ filesets:
       - fusesoc:utils:generators
       - uart16550
       - ">=pulp-platform.org::axi:0.23.0-r1"
-      - ">=chipsalliance.org:cores:SweRV_EH1:1.5"
+      - ">=nbarazani:cores:SweRV_EH1:1.5"
       - simple_spi
       - wb_intercon
 

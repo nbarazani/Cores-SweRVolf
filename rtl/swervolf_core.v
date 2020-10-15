@@ -80,7 +80,9 @@ module swervolf_core
     input wire 	       i_ram_init_done,
     input wire 	       i_ram_init_error,
     input wire [63:0]  i_gpio,
-    output wire [63:0] o_gpio);
+    output wire [63:0] o_gpio,
+    output wire [31:0] branches_counter,
+    output wire [31:0] branches_taken_counter);
 
    localparam BOOTROM_SIZE = 32'h1000;
 
