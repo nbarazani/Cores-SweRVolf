@@ -100,28 +100,28 @@ module swervolf_nexys_a7
 	  end
 	  else begin
 		if (!an[7]) begin
-			four_bits[3:0] <= branches_counter[3:0];
+			four_bits[3:0] <= 4'b0000 //branches_counter[3:0];
 		end
 		if (!an[0]) begin
-			four_bits[3:0] <= branches_counter[7:4];
+			four_bits[3:0] <= 4'b0001 //branches_counter[7:4];
 		end
 		if (!an[1]) begin
-			four_bits[3:0] <= branches_counter[11:8];
+			four_bits[3:0] <= 4'b0010 //branches_counter[11:8];
 		end
 		if (!an[2]) begin
-			four_bits[3:0] <= branches_counter[15:12];
+			four_bits[3:0] <= 4'b0011 //branches_counter[15:12];
 		end
 		if (!an[3]) begin
-			four_bits[3:0] <= branches_taken_counter[3:0];
+			four_bits[3:0] <= 4'b0100 //branches_taken_counter[3:0];
 		end
 		if (!an[4]) begin
-			four_bits[3:0] <= branches_taken_counter[7:4];
+			four_bits[3:0] <= 4'b0101 //branches_taken_counter[7:4];
 		end
 		if (!an[5]) begin
-			four_bits[3:0] <= branches_taken_counter[11:8];
+			four_bits[3:0] <= 4'b0110 //branches_taken_counter[11:8];
 		end
 		if (!an[6]) begin
-			four_bits[3:0] <= branches_taken_counter[15:12];
+			four_bits[3:0] <= 4'b0111 //branches_taken_counter[15:12];
 		end
 			
 	  end
