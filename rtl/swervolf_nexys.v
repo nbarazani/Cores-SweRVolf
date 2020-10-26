@@ -83,45 +83,50 @@ module swervolf_nexys_a7
    
    always @(posedge clk_core or negedge rstn) begin
 	  if(!rstn) begin
-		an <= 8'b11111110;
+		  an[7:0] <= 8'b11111110;
+		  four_bits <= 4'b0000;
 	  end
 	  else begin
-		an[0] <= an[7];
-		an[1] <= an[0];
-		an[2] <= an[1];
-		an[3] <= an[2];
-		an[4] <= an[3];
-		an[5] <= an[4];
-		an[6] <= an[5];
-		an[7] <= an[6];
-	  end
-	  if (!rstn) begin
-	    four_bits <= 4'b0000;
-	  end
-	  else begin
-		if (!an[7]) begin
-			four_bits[3:0] <= 4'b0000; //branches_counter[3:0];
-		end
-		if (!an[0]) begin
-			four_bits[3:0] <= 4'b0001; //branches_counter[7:4];
+		  if (!an[0]) begin
+			  an[0] <= 1;
+			  four_bits[3:0] <= 4'b0000; //branches_counter[3:0];
+			  an[1] <= 0;
+			  
 		end
 		if (!an[1]) begin
-			four_bits[3:0] <= 4'b0010; //branches_counter[11:8];
+			an[1] <= 1;
+			four_bits[3:0] <= 4'b0001; //branches_counter[7:4];
+			an[2] <= 0;
 		end
 		if (!an[2]) begin
-			four_bits[3:0] <= 4'b0011; //branches_counter[15:12];
+			an[2] <= 1;
+			four_bits[3:0] <= 4'b0010; //branches_counter[11:8];
+			an[3] <= 0;
 		end
 		if (!an[3]) begin
-			four_bits[3:0] <= 4'b0100; //branches_taken_counter[3:0];
+			an[3] <= 1;
+			four_bits[3:0] <= 4'b0011; //branches_counter[15:12];
+			an[4] <= 0;
 		end
 		if (!an[4]) begin
-			four_bits[3:0] <= 4'b0101; //branches_taken_counter[7:4];
+			an[4] <= 1;
+			four_bits[3:0] <= 4'b0100; //branches_taken_counter[3:0];
+			an[5] <= 0;
 		end
 		if (!an[5]) begin
-			four_bits[3:0] <= 4'b0110; //branches_taken_counter[11:8];
+			an[5] <= 1;
+			four_bits[3:0] <= 4'b0101; //branches_taken_counter[7:4];
+			an[6] <= 0;
 		end
 		if (!an[6]) begin
+			an[6] <= 1;
+			four_bits[3:0] <= 4'b0110; //branches_taken_counter[11:8];
+			an[7] <= 0;
+		end
+		if (!an[7]) begin
+			an[7] <= 1;
 			four_bits[3:0] <= 4'b0111; //branches_taken_counter[15:12];
+			an[0] <= 0;
 		end
 			
 	  end
