@@ -96,7 +96,7 @@ module swervolf_nexys_a7
 		an[7] <= an[6];
 	  end
 	  if (!rstn) begin
-	    four_bits <= 3'b0;
+	    four_bits <= 4'b0000;
 	  end
 	  else begin
 		if (!an[7]) begin
@@ -129,7 +129,7 @@ module swervolf_nexys_a7
    
    end
    
-   always @(four_bits) begin
+	always @(*) begin
 	case (four_bits)
 		4'b0000 : begin seven_seg = 7'b0000001; end
 		4'b0001 : begin seven_seg = 7'b1001111; end	
