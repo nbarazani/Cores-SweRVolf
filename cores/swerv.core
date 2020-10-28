@@ -1,6 +1,6 @@
 CAPI=2:
 
-name : nbarazani:cores:SweRV_EH1:1.7
+name : nbarazani:cores:SweRV_EH1:1.8
 
 filesets:
   rtl:
@@ -149,5 +149,5 @@ provider:
   name    : github
   user    : nbarazani
   repo    : Cores-SweRV
-  version : 61addbfbf6c380b3da72ec9cf84e88be399c1578
+  version : 6df2e5aecd09d483bbb9b6929728e8446c4c05a0
   patches : [cast_to_enum.patch]
