@@ -92,7 +92,7 @@ module Seven_seg(CLK, SSEG_CA, SSEG_AN, branches_counter, branches_taken_counter
     input wire switch;
 	
     reg Clk_Slow;
-    wire [31:0] value;
+    reg [31:0] value;
 	
     slow_clock S1 (CLK, Clk_Slow);          //initializes clock
     reg [3:0] four_bits;
