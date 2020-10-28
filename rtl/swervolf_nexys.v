@@ -84,10 +84,11 @@ module swervolf_nexys_a7
 	
 module Seven_seg(CLK, SSEG_CA, SSEG_AN);
 
-    input CLK;
+    input wire CLK;
     output reg [7:0] SSEG_CA;
     output reg [7:0] SSEG_AN;
-
+    reg Clk_Slow;
+	
     slow_clock S1 (CLK, Clk_Slow);          //initializes clock
     reg [3:0] four_bits;
 	
@@ -129,11 +130,10 @@ module Seven_seg(CLK, SSEG_CA, SSEG_AN);
 endmodule   
 //SLOW CLK	
 module slow_clock(CLK, Clk_Slow);
-    input CLK;
-    output Clk_Slow;
+    input wire CLK;
+    output reg Clk_Slow;
 
-    reg [31:0] counter_out;
-    reg Clk_Slow; 
+    reg [31:0] counter_out; 
 	
 initial begin 
    counter_out<=32'h00000000; 
