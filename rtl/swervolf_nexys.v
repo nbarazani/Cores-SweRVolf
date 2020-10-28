@@ -79,54 +79,124 @@ module swervolf_nexys_a7
    wire [31:0] branches_taken_counter;
    
    reg [6:0] seven_seg;
-   reg [3:0] four_bits;
    
+   Seven_seg(clk, seven_seg, an); 
+	
+module Seven_seg(CLK, SSEG_CA, SSEG_AN);
+
+    input CLK;
+    output reg [7:0] SSEG_CA;
+    output reg [7:0] SSEG_AN;
+
+    slow_clock S1 (CLK, Clk_Slow);          //initializes clock
+    reg [3:0] four_bits;
+	
+    initial begin
+        SSEG_AN <= 8'b11111110;             //start at first anode
+    end
+    
+    always @ (posedge Clk_Slow)
+    begin
+	    case (four_bits)
+            4'b0000: SSEG_CA <= 8'b11000000;
+            4'b0001: SSEG_CA <= 8'b11111001;
+            4'b0010: SSEG_CA <= 8'b10100100;
+            4'b0011: SSEG_CA <= 8'b10110000;
+            4'b0100: SSEG_CA <= 8'b10011001;
+            4'b0101: SSEG_CA <= 8'b10010010;
+            4'b0110: SSEG_CA <= 8'b10000010;
+            4'b0111: SSEG_CA <= 8'b11011000;
+            4'b1000: SSEG_CA <= 8'b10000000;
+            4'b1010: SSEG_CA <= 8'b10001000;
+            4'b1011: SSEG_CA <= 8'b10000011;
+            4'b1100: SSEG_CA <= 8'b11000110;
+            4'b1101: SSEG_CA <= 8'b10100001;
+            4'b1110: SSEG_CA <= 8'b10000110;
+            4'b1111: SSEG_CA <= 8'b10001110;
+        endcase
+
+        case (SSEG_AN)
+		8'b11111110: begin SSEG_AN <= 8'b11111101; four_bits[3:0] <= 4'b0000; /*branches_counter[3:0];*/ end
+		8'b11111101: begin SSEG_AN <= 8'b11111011; four_bits[3:0] <= 4'b0001; /*branches_counter[7:4];*/ end
+		8'b11111011: begin SSEG_AN <= 8'b11110111; four_bits[3:0] <= 4'b0010; /*branches_counter[11:8];*/ end
+		8'b11110111: begin SSEG_AN <= 8'b11101111; four_bits[3:0] <= 4'b0011; /*branches_counter[15:12];*/ end
+		8'b11101111: begin SSEG_AN <= 8'b11011111; four_bits[3:0] <= 4'b0100; /*branches_taken_counter[3:0];*/ end
+		8'b11011111: begin SSEG_AN <= 8'b10111111; four_bits[3:0] <= 4'b0101; /*branches_taken_counter[7:4];*/ end
+		8'b10111111: begin SSEG_AN <= 8'b01111111; four_bits[3:0] <= 4'b0110; /*branches_taken_counter[11:8];*/ end
+		8'b01111111: begin SSEG_AN <= 8'b11111110; four_bits[3:0] <= 4'b0111; /*branches_taken_counter[15:12];*/ end
+        endcase
+    end
+endmodule   
+//SLOW CLK	
+module slow_clock(CLK, Clk_Slow);
+    input CLK;
+    output Clk_Slow;
+
+    reg [31:0] counter_out;
+	
+initial begin 
+   counter_out<=32'h00000000; 
+   Clk_Slow<=0; 
+end 
+
+//this always block runs on the fast 100MHz clock
+
+    always @(posedge CLK) begin 
+   counter_out<=counter_out + 32'h00000001; 
+   if (counter_out>32'h00F5E100) begin 
+       counter_out<=32'h00000000; 
+       Clk_Slow<=!Clk_Slow; 
+   end 
+end
+endmodule
+
+   /*
    always @(posedge clk_core or negedge rstn) begin
 	  if(!rstn) begin
-		  an[7:0] <= 8'b00000001;
+		  an[7:0] <= 8'b11111110;
 		  four_bits <= 4'b0000;
 	  end
 	  else begin
-		  if (an[0]) begin
-			  an[0] <= 0;
+		  if (!an[0]) begin
+			  an[0] <= 1;
 			  four_bits[3:0] <= 4'b0000; //branches_counter[3:0];
-			  an[1] <= 1;
+			  an[1] <= 0;
 			  
 		end
-		if (an[1]) begin
-			an[1] <= 0;
+		  if (!an[1]) begin
+			an[1] <= 1;
 			four_bits[3:0] <= 4'b0001; //branches_counter[7:4];
-			an[2] <= 1;
-		end
-		if (an[2]) begin
 			an[2] <= 0;
+		end
+		  if (!an[2]) begin
+			an[2] <= 1;
 			four_bits[3:0] <= 4'b0010; //branches_counter[11:8];
-			an[3] <= 1;
-		end
-		if (an[3]) begin
 			an[3] <= 0;
+		end
+		  if (!an[3]) begin
+			an[3] <= 1;
 			four_bits[3:0] <= 4'b0011; //branches_counter[15:12];
-			an[4] <= 1;
-		end
-		if (an[4]) begin
 			an[4] <= 0;
+		end
+		  if (!an[4]) begin
+			an[4] <= 1;
 			four_bits[3:0] <= 4'b0100; //branches_taken_counter[3:0];
-			an[5] <= 1;
-		end
-		if (an[5]) begin
 			an[5] <= 0;
+		end
+		  if (!an[5]) begin
+			an[5] <= 1;
 			four_bits[3:0] <= 4'b0101; //branches_taken_counter[7:4];
-			an[6] <= 1;
-		end
-		if (an[6]) begin
 			an[6] <= 0;
-			four_bits[3:0] <= 4'b0110; //branches_taken_counter[11:8];
-			an[7] <= 1;
 		end
-		if (an[7]) begin
+		  if (!an[6]) begin
+			an[6] <= 1;
+			four_bits[3:0] <= 4'b0110; //branches_taken_counter[11:8];
 			an[7] <= 0;
+		end
+		  if (!an[7]) begin
+			an[7] <= 1;
 			four_bits[3:0] <= 4'b0111; //branches_taken_counter[15:12];
-			an[0] <= 1;
+			an[0] <= 0;
 		end
 			
 	  end
@@ -163,7 +233,16 @@ module swervolf_nexys_a7
 	cg = seven_seg[0];
 
 end
-
+*/
+always @(*) begin
+	ca = seven_seg[6];
+	cb = seven_seg[5];
+	cc = seven_seg[4];
+	cd = seven_seg[3];
+	ce = seven_seg[2];
+	cf = seven_seg[1];
+	cg = seven_seg[0];	
+end
    //NIBA
 
    clk_gen_nexys clk_gen
