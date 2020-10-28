@@ -119,14 +119,14 @@ module Seven_seg(CLK, SSEG_CA, SSEG_AN);
         endcase
 
         case (SSEG_AN)
-		8'b11111110: begin SSEG_AN <= 8'b11111101; four_bits[3:0] <= 4'b0001; /*branches_counter[7:4];*/ end
-		8'b11111101: begin SSEG_AN <= 8'b11111011; four_bits[3:0] <= 4'b0010; /*branches_counter[11:8];*/ end
-		8'b11111011: begin SSEG_AN <= 8'b11110111; four_bits[3:0] <= 4'b0011; /*branches_counter[15:12];*/ end
-		8'b11110111: begin SSEG_AN <= 8'b11101111; four_bits[3:0] <= 4'b0100; /*branches_taken_counter[3:0];*/ end
-		8'b11101111: begin SSEG_AN <= 8'b11011111; four_bits[3:0] <= 4'b0101; /*branches_taken_counter[7:4];*/ end
-		8'b11011111: begin SSEG_AN <= 8'b10111111; four_bits[3:0] <= 4'b0110; /*branches_taken_counter[11:8];*/ end
-		8'b10111111: begin SSEG_AN <= 8'b01111111; four_bits[3:0] <= 4'b0111; /*branches_taken_counter[15:12];*/ end
-		8'b01111111: begin SSEG_AN <= 8'b11111110; four_bits[3:0] <= 4'b0000; /*branches_counter[3:0];*/ end
+		8'b11111110: begin SSEG_AN <= 8'b11111101; four_bits[3:0] <= 4'b0000; /*branches_counter[3:0];*/ end
+		8'b11111101: begin SSEG_AN <= 8'b11111011; four_bits[3:0] <= 4'b0001; /*branches_counter[7:4];*/ end
+		8'b11111011: begin SSEG_AN <= 8'b11110111; four_bits[3:0] <= 4'b0010; /*branches_counter[11:8];*/ end
+		8'b11110111: begin SSEG_AN <= 8'b11101111; four_bits[3:0] <= 4'b0011; /*branches_counter[15:12];*/ end
+		8'b11101111: begin SSEG_AN <= 8'b11011111; four_bits[3:0] <= 4'b0100; /*branches_taken_counter[3:0];*/ end
+		8'b11011111: begin SSEG_AN <= 8'b10111111; four_bits[3:0] <= 4'b0101; /*branches_taken_counter[7:4];*/ end
+		8'b10111111: begin SSEG_AN <= 8'b01111111; four_bits[3:0] <= 4'b0110; /*branches_taken_counter[11:8];*/ end
+		8'b01111111: begin SSEG_AN <= 8'b11111110; four_bits[3:0] <= 4'b0110; /*branches_taken_counter[15:12];*/ end
         endcase
     end
 endmodule   
@@ -146,7 +146,7 @@ end
 
     always @(posedge CLK) begin 
    counter_out<=counter_out + 32'h00000001; 
-   if (counter_out>32'h0045E100) begin 
+   if (counter_out>32'h0000E100) begin 
        counter_out<=32'h00000000; 
        Clk_Slow<=!Clk_Slow; 
    end 
