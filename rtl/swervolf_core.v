@@ -558,6 +558,11 @@ module swervolf_core
       .o_cpu_run_ack       (),
 
       .scan_mode  (1'b0),
-      .mbist_mode (1'b0));
+       .mbist_mode (1'b0),
+     //NIBA
+       .branches_counter (branches_counter),
+       .branches_taken_counter (branches_taken_counter)
+     //NIBA
+     );
 
 endmodule
