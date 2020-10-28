@@ -1,6 +1,6 @@
 CAPI=2:
 
-name : nbarazani:cores:SweRV_EH1:1.8
+name : nbarazani:cores:SweRV_EH1:1.9
 
 filesets:
   rtl:
