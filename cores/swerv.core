@@ -149,5 +149,5 @@ provider:
   name    : github
   user    : nbarazani
   repo    : Cores-SweRV
-  version : a00b8ff5b43136b2995b9b0620d6dc94cf4eea1e
+  version : 61addbfbf6c380b3da72ec9cf84e88be399c1578
   patches : [cast_to_enum.patch]
