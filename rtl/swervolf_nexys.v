@@ -80,11 +80,13 @@ module swervolf_nexys_a7
    
    reg [6:0] seven_seg;
    
-   Seven_seg(clk, seven_seg, an); 
+   Seven_seg(clk, seven_seg, an, branches_counter, branches_taken_counter); 
 	
-module Seven_seg(CLK, SSEG_CA, SSEG_AN);
+module Seven_seg(CLK, SSEG_CA, SSEG_AN, branches_counter, branches_taken_counter);
 
     input wire CLK;
+    input wire [31:0] branches_counter;
+    input wire [31:0] branches_taken_counter;
     output reg [6:0] SSEG_CA;
     output reg [7:0] SSEG_AN;
     reg Clk_Slow;
@@ -119,14 +121,14 @@ module Seven_seg(CLK, SSEG_CA, SSEG_AN);
         endcase
 
         case (SSEG_AN)
-		8'b11111110: begin SSEG_AN <= 8'b11111101; four_bits[3:0] <= 4'b0010; /*branches_counter[3:0];*/ end
-		8'b11111101: begin SSEG_AN <= 8'b11111011; four_bits[3:0] <= 4'b0011; /*branches_counter[7:4];*/ end
-		8'b11111011: begin SSEG_AN <= 8'b11110111; four_bits[3:0] <= 4'b0100; /*branches_counter[11:8];*/ end
-		8'b11110111: begin SSEG_AN <= 8'b11101111; four_bits[3:0] <= 4'b0101; /*branches_counter[15:12];*/ end
-		8'b11101111: begin SSEG_AN <= 8'b11011111; four_bits[3:0] <= 4'b0110; /*branches_taken_counter[3:0];*/ end
-		8'b11011111: begin SSEG_AN <= 8'b10111111; four_bits[3:0] <= 4'b0111; /*branches_taken_counter[7:4];*/ end
-		8'b10111111: begin SSEG_AN <= 8'b01111111; four_bits[3:0] <= 4'b0000; /*branches_taken_counter[11:8];*/ end
-		8'b01111111: begin SSEG_AN <= 8'b11111110; four_bits[3:0] <= 4'b0001; /*branches_taken_counter[15:12];*/ end
+		8'b11111110: begin SSEG_AN <= 8'b11111101; four_bits[3:0] <= branches_counter[11:8]; /*4'b0010; */ end
+		8'b11111101: begin SSEG_AN <= 8'b11111011; four_bits[3:0] <= branches_counter[15:12]; /*4'b0011; */ end
+		8'b11111011: begin SSEG_AN <= 8'b11110111; four_bits[3:0] <= branches_taken_counter[3:0]; /*4'b0100; */ end
+		8'b11110111: begin SSEG_AN <= 8'b11101111; four_bits[3:0] <= branches_taken_counter[7:4]; /*4'b0101; */ end
+		8'b11101111: begin SSEG_AN <= 8'b11011111; four_bits[3:0] <= branches_taken_counter[11:8]; /*4'b0110; */ end
+		8'b11011111: begin SSEG_AN <= 8'b10111111; four_bits[3:0] <= branches_taken_counter[15:12]; /*4'b0111; */ end
+		8'b10111111: begin SSEG_AN <= 8'b01111111; four_bits[3:0] <= branches_counter[3:0]; /*4'b0000; */ end
+		8'b01111111: begin SSEG_AN <= 8'b11111110; four_bits[3:0] <= branches_counter[7:4]; /*4'b0001; */ end
         endcase
     end
 endmodule   
@@ -153,90 +155,6 @@ end
 end
 endmodule
 
-   /*
-   always @(posedge clk_core or negedge rstn) begin
-	  if(!rstn) begin
-		  an[7:0] <= 8'b11111110;
-		  four_bits <= 4'b0000;
-	  end
-	  else begin
-		  if (!an[0]) begin
-			  an[0] <= 1;
-			  four_bits[3:0] <= 4'b0000; //branches_counter[3:0];
-			  an[1] <= 0;
-			  
-		end
-		  if (!an[1]) begin
-			an[1] <= 1;
-			four_bits[3:0] <= 4'b0001; //branches_counter[7:4];
-			an[2] <= 0;
-		end
-		  if (!an[2]) begin
-			an[2] <= 1;
-			four_bits[3:0] <= 4'b0010; //branches_counter[11:8];
-			an[3] <= 0;
-		end
-		  if (!an[3]) begin
-			an[3] <= 1;
-			four_bits[3:0] <= 4'b0011; //branches_counter[15:12];
-			an[4] <= 0;
-		end
-		  if (!an[4]) begin
-			an[4] <= 1;
-			four_bits[3:0] <= 4'b0100; //branches_taken_counter[3:0];
-			an[5] <= 0;
-		end
-		  if (!an[5]) begin
-			an[5] <= 1;
-			four_bits[3:0] <= 4'b0101; //branches_taken_counter[7:4];
-			an[6] <= 0;
-		end
-		  if (!an[6]) begin
-			an[6] <= 1;
-			four_bits[3:0] <= 4'b0110; //branches_taken_counter[11:8];
-			an[7] <= 0;
-		end
-		  if (!an[7]) begin
-			an[7] <= 1;
-			four_bits[3:0] <= 4'b0111; //branches_taken_counter[15:12];
-			an[0] <= 0;
-		end
-			
-	  end
-      
-   
-   end
-   
-	always @(*) begin
-	case (four_bits)
-		4'b0000 : begin seven_seg = 7'b0000001; end
-		4'b0001 : begin seven_seg = 7'b1001111; end	
-		4'b0010 : begin seven_seg = 7'b0010010; end
-		4'b0011 : begin seven_seg = 7'b0000110; end
-		4'b0100 : begin seven_seg = 7'b1001100; end
-		4'b0101 : begin seven_seg = 7'b0100100; end
-		4'b0110 : begin seven_seg = 7'b0100000; end
-		4'b0111 : begin seven_seg = 7'b0001111; end
-		4'b1000 : begin seven_seg = 7'b0000000; end
-		4'b1001 : begin seven_seg = 7'b0000100; end
-		4'b1010 : begin seven_seg = 7'b0001000; end
-		4'b1011 : begin seven_seg = 7'b1100000; end
-		4'b1100 : begin seven_seg = 7'b0110001; end
-		4'b1101 : begin seven_seg = 7'b1000010; end	
-		4'b1110 : begin seven_seg = 7'b0110000; end
-		4'b1111 : begin seven_seg = 7'b0111000; end
-		default : begin seven_seg = 7'b1111111; end
-	endcase
-	ca = seven_seg[6];
-	cb = seven_seg[5];
-	cc = seven_seg[4];
-	cd = seven_seg[3];
-	ce = seven_seg[2];
-	cf = seven_seg[1];
-	cg = seven_seg[0];
-
-end
-*/
 always @(*) begin
 	ca = seven_seg[6];
 	cb = seven_seg[5];
