@@ -353,7 +353,12 @@ end
       .i_ram_init_done  (litedram_init_done),
       .i_ram_init_error (litedram_init_error),
       .i_gpio           ({32'd0,sw_2r,16'd0}),
-      .o_gpio           (gpio_out));
+      .o_gpio           (gpio_out),
+      //NIBA
+      .branches_counter (branches_counter),
+      .branches_taken_counter (branches_taken_counter)
+      //NIBA
+     );
 
    always @(posedge clk_core) begin
       o_led <= led_int_r;
