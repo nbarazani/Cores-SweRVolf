@@ -133,6 +133,7 @@ module slow_clock(CLK, Clk_Slow);
     output Clk_Slow;
 
     reg [31:0] counter_out;
+    reg Clk_Slow; 
 	
 initial begin 
    counter_out<=32'h00000000; 
