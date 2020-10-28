@@ -80,24 +80,39 @@ module swervolf_nexys_a7
    
    reg [6:0] seven_seg;
    
-   Seven_seg(clk, seven_seg, an, branches_counter, branches_taken_counter); 
+   Seven_seg(clk, seven_seg, an, branches_counter, branches_taken_counter, sw_2r[1]); 
 	
-module Seven_seg(CLK, SSEG_CA, SSEG_AN, branches_counter, branches_taken_counter);
+module Seven_seg(CLK, SSEG_CA, SSEG_AN, branches_counter, branches_taken_counter, switch);
 
     input wire CLK;
     input wire [31:0] branches_counter;
     input wire [31:0] branches_taken_counter;
     output reg [6:0] SSEG_CA;
     output reg [7:0] SSEG_AN;
+    input wire switch;
+	
     reg Clk_Slow;
+    wire [31:0] value;
 	
     slow_clock S1 (CLK, Clk_Slow);          //initializes clock
     reg [3:0] four_bits;
 	
+	
     initial begin
         SSEG_AN <= 8'b11111110;             //start at first anode
     end
-    
+	
+	
+    always @(*) begin
+	    if (switch) begin
+		    value = branches_counter;
+	    end
+	    else begin
+		    value = branches_taken_counter;
+	    end
+    end
+	
+	
     always @ (posedge Clk_Slow)
     begin
 	    case (four_bits)
@@ -121,14 +136,14 @@ module Seven_seg(CLK, SSEG_CA, SSEG_AN, branches_counter, branches_taken_counter
         endcase
 
         case (SSEG_AN)
-		8'b11111110: begin SSEG_AN <= 8'b11111101; four_bits[3:0] <= branches_counter[11:8]; /*4'b0010; */ end
-		8'b11111101: begin SSEG_AN <= 8'b11111011; four_bits[3:0] <= branches_counter[15:12]; /*4'b0011; */ end
-		8'b11111011: begin SSEG_AN <= 8'b11110111; four_bits[3:0] <= branches_taken_counter[3:0]; /*4'b0100; */ end
-		8'b11110111: begin SSEG_AN <= 8'b11101111; four_bits[3:0] <= branches_taken_counter[7:4]; /*4'b0101; */ end
-		8'b11101111: begin SSEG_AN <= 8'b11011111; four_bits[3:0] <= branches_taken_counter[11:8]; /*4'b0110; */ end
-		8'b11011111: begin SSEG_AN <= 8'b10111111; four_bits[3:0] <= branches_taken_counter[15:12]; /*4'b0111; */ end
-		8'b10111111: begin SSEG_AN <= 8'b01111111; four_bits[3:0] <= branches_counter[3:0]; /*4'b0000; */ end
-		8'b01111111: begin SSEG_AN <= 8'b11111110; four_bits[3:0] <= branches_counter[7:4]; /*4'b0001; */ end
+		8'b10111111: begin SSEG_AN <= 8'b01111111; four_bits[3:0] <= value[3:0]; /*4'b0000; */ end
+		8'b01111111: begin SSEG_AN <= 8'b11111110; four_bits[3:0] <= value[7:4]; /*4'b0001; */ end
+		8'b11111110: begin SSEG_AN <= 8'b11111101; four_bits[3:0] <= value[11:8]; /*4'b0010; */ end
+		8'b11111101: begin SSEG_AN <= 8'b11111011; four_bits[3:0] <= value[15:12]; /*4'b0011; */ end
+		8'b11111011: begin SSEG_AN <= 8'b11110111; four_bits[3:0] <= value[19:16]; /*4'b0100; */ end
+		8'b11110111: begin SSEG_AN <= 8'b11101111; four_bits[3:0] <= value[23:20]; /*4'b0101; */ end
+		8'b11101111: begin SSEG_AN <= 8'b11011111; four_bits[3:0] <= value[27:24]; /*4'b0110; */ end
+		8'b11011111: begin SSEG_AN <= 8'b10111111; four_bits[3:0] <= value[31:28]; /*4'b0111; */ end
         endcase
     end
 endmodule   
