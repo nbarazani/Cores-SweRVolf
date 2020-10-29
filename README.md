@@ -1,3 +1,6 @@
+This is a forked version of the Chips-Alliance SweRVolf core design with additional Branch Counter and Branch-Taken Counter. It was used as part of a BSc final project
+
+
 SweRVolf
 ========
 
@@ -130,6 +133,10 @@ The active on-board I/O consists of a LED, a switch and the microUSB connector f
 
 16 LEDs are controlled by memory-mapped GPIO at address 0x80001010-0x80001011
 
+#### Seven Segment Display
+
+8 digits used to display the Branch-Counter value or the Branch-Taken-Counter value (selected by sw[1])
+
 #### Switches
 
 16 Switches are mapped GPIO addresses at 0x80001012-0x80001013
@@ -144,6 +151,7 @@ During boot up, the two topmost switches (sw14, sw15) control the boot mode.
 |   on |   on | Undefined                  |
 
 *Note: Switch 0 has a dual purpose and selects whether to output serial communication from the SoC (0=off) or from the embedded self-test program in the DDR2 controller (1=on).*
+*Note: Switch 1 has a dual purpose and selects  the value to display on the 7-Segment digits (Branch-Counter or Branch-Taken-Counter)
 
 #### micro USB
 
@@ -163,7 +171,7 @@ Create an empty directory, e.g. named swervolf, to use as the root of the projec
 
 1. Make sure you have [FuseSoC](https://github.com/olofk/fusesoc) installed or install it with `pip install fusesoc`
 2. Add the FuseSoC base library to the workspace with `fusesoc library add fusesoc-cores https://github.com/fusesoc/fusesoc-cores`
-3. Add the swervolf library with `fusesoc library add swervolf https://github.com/chipsalliance/Cores-SweRVolf`
+3. Add the swervolf library with `fusesoc library add swervolf https://github.com/nbarazani/Cores-SweRVolf`
 4. Make sure you have verilator installed to run the simulation. **Note** This requires at least version 3.918. The version that is shipped with Ubuntu 18.04 will NOT work
 
 Your workspace shall now look like this:
