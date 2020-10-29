@@ -104,7 +104,7 @@ module Seven_seg(CLK, SSEG_CA, SSEG_AN, branches_counter, branches_taken_counter
 	
 	
     always @(*) begin
-	    if (switch) begin
+	    if (!switch) begin
 		    value = branches_counter;
 	    end
 	    else begin
